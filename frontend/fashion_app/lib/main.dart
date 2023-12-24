@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Cool UI Example',
+      title: 'Name of App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -27,20 +27,21 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cool UI Example'),
+        title: Text('Name of App'),
       ),
+      backgroundColor: Colors.cyan.shade50,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             CircleAvatar(
-              radius: 50.0,
+              radius: 80.0,
               backgroundImage: NetworkImage(
-                'https://cdn.tophatch.com/media/filer_public_thumbnails/filer_public/9c/25/9c25bddc-005e-4c11-8926-9f28b1d10337/emilykeller_concepts1-colorsketches.jpg__992x992_q85_subsampling-2.jpg'),            
+                'https://t4.ftcdn.net/jpg/01/41/72/83/360_F_141728316_rqGLy0W6NJ4KuG0s3bRsNFO5Ot6M6Kuo.jpg'),            
             ),
             SizedBox(height: 20.0),
             Text(
-              'John Doe',
+              'User Name?',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
@@ -48,10 +49,10 @@ class MyHomePage extends StatelessWidget {
             ),
             SizedBox(height: 10.0),
             Text(
-              'Flutter Enthusiast',
+              'Other Stuff',
               style: TextStyle(
                 fontSize: 16.0,
-                color: Colors.grey,
+                color: Colors.cyan.shade900,
               ),
             ),
             SizedBox(height: 20.0),
@@ -62,7 +63,11 @@ class MyHomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => SecondPage()),
                 );
               },
-              child: Text('Continue'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.cyan.shade900,
+                onPrimary: Colors.white,
+              ),
+              child: Text('Continue', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -73,14 +78,79 @@ class MyHomePage extends StatelessWidget {
 
 // second page
 class SecondPage extends StatelessWidget {
+  final TextEditingController _textEditingController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Second Page'),
       ),
-      body: Center(
-        child: Text('This is the second page!'),
+      backgroundColor: Colors.cyan.shade50,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    // Access the user input using _textEditingController.text
+                    String userInput = _textEditingController.text;
+                    print('User Input: $userInput');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.cyan.shade900,
+                    onPrimary: Colors.white,
+                  ),
+                  child: Text('Female', style: TextStyle(color: Colors.white)),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                // Access the user input using _textEditingController.text
+                    String userInput = _textEditingController.text;
+                    print('User Input: $userInput');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.cyan.shade900,
+                    onPrimary: Colors.white,
+                  ),
+                  child: Text('Male', style: TextStyle(color: Colors.white)),
+                ),
+              ],
+            ),
+            Text(
+              '''If Male Please Enter Chest, Wasit, Arms, and Leg Sizes
+If Female Please Enter Bust, Waist, Hips, Arms, and Leg Sizes''',
+              style: TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 10.0),
+            TextField(
+              controller: _textEditingController,
+              decoration: InputDecoration(
+                hintText: 'Type here...',
+              ),
+            ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                // Access the user input using _textEditingController.text
+                String userInput = _textEditingController.text;
+                print('User Input: $userInput');
+              },
+              style: ElevatedButton.styleFrom(
+                primary: Colors.cyan.shade900,
+                onPrimary: Colors.white,
+              ),
+              child: Text('Submit', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }
