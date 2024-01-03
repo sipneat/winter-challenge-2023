@@ -1,39 +1,49 @@
+from tensorflow.keras.models import load_model
 import cv2 as cv
 import numpy as np
-import colorsys
 
 def main():
     img = cv.imread("./test.jpg")
 
-    hsv_img = cv.cvtColor(img, cv.COLOR_BGR2HSV)
-    bincount = bincount_app(hsv_img)
-    hsv = colorsys.rgb_to_hsv(bincount[0], bincount[1], bincount[2])
-    hsv = (int(hsv[0]*360), int(hsv[1]*255), hsv[2])
-    bound_lower = np.array([25, 20, 20])
-    bound_upper = np.array(list(hsv))
+    rgb_colors = find_majority_colors(img)
+    predicted_label = preprocess_image(img)
 
-    mask = cv.inRange(hsv_img, bound_lower, bound_upper)
-    kernel = np.ones((7, 7), np.uint8)
+def find_majority_colors(img):
+    img_rgb = cv.cvtColor(img, cv.COLOR_BGR2RGB)
+    pixels = img_rgb.reshape((-1, 3))
+    pixels = np.float32(pixels)
+    criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+    k = 2  # Finding top 2 dominant colors
+    ret, labels, centers = cv.kmeans(pixels, k, None, criteria, 10, cv.KMEANS_RANDOM_CENTERS)
+    centers = np.uint8(centers)
+    counts = np.bincount(labels.flatten())
+    top_2_indices = np.argsort(counts)[-2:]
+    top_2_colors = [centers[i].tolist() for i in top_2_indices]
 
-    mask = cv.morphologyEx(mask, cv.MORPH_CLOSE, kernel)
-    mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel)
+    print(top_2_colors)
+    return top_2_colors
 
-    seg_img = cv.bitwise_and(img, img, mask=mask)
-    contours, hier = cv.findContours(
-        mask.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE
-    )
-    output = cv.drawContours(seg_img, contours, -1, (0, 0, 255), 3)
+# Function to preprocess the uploaded image
+def preprocess_image(img):
+    img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    img = cv.resize(img, (28, 28))
+    img = img.astype('float32') / 255
+    img = np.expand_dims(img, axis=-1)
 
-    cv.imshow("Result", output)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
+    model = load_model('./fashion_model.h5')
 
-def bincount_app(a):
-    a2D = a.reshape(-1,a.shape[-1])
-    col_range = (256, 256, 256) # generically : a2D.max(0)+1
-    a1D = np.ravel_multi_index(a2D.T, col_range)
-    print(list(np.unravel_index(np.bincount(a1D).argmax(), col_range)))
-    return list(np.unravel_index(np.bincount(a1D).argmax(), col_range))
+    prediction = model.predict(np.array([img]))
+    predicted_class = np.argmax(prediction)
+
+    # Map the class index to the class name (for Fashion MNIST)
+    class_names = [
+    'T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
+    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot'
+    ] 
+
+    predicted_label = class_names[predicted_class]
+    print(f"Predicted Clothing Item: {predicted_label}")
+    return predicted_label
 
 if __name__ == "__main__":
     main()
