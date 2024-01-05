@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
             CircleAvatar(
               radius: 80.0,
               backgroundImage: NetworkImage(
-                'https://t4.ftcdn.net/jpg/01/41/72/83/360_F_141728316_rqGLy0W6NJ4KuG0s3bRsNFO5Ot6M6Kuo.jpg'),            
+                  'https://t4.ftcdn.net/jpg/01/41/72/83/360_F_141728316_rqGLy0W6NJ4KuG0s3bRsNFO5Ot6M6Kuo.jpg'),
             ),
             SizedBox(height: 20.0),
             Text(
@@ -63,7 +63,7 @@ class MyHomePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
-                  context, 
+                  context,
                   MaterialPageRoute(builder: (context) => SecondPage()),
                 );
               },
@@ -111,57 +111,64 @@ class _SecondPageState extends State<SecondPage> {
       ),
       backgroundColor: Colors.cyan.shade50,
       body: Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Please insert photos of top',
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'Please insert photos of top',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 10.0),
-            for (var image in _images)
-              image == null ? Text('No image selected.') : Image.file(image),
-            ElevatedButton(
-              onPressed: _getImages,
-              child: Text('Pick Images'),
-            ),
-            SizedBox(height: 20.0),
-            TextField(
-              controller: _textEditingController,
-              decoration: InputDecoration( 
-                hintText: 'Type here...',
+              SizedBox(height: 10.0),
+              for (var image in _images)
+                image == null ? Text('No image selected.') : Image.file(image),
+              ElevatedButton(
+                onPressed: _getImages,
+                child: Text('Pick Images'),
               ),
-            ),
-            SizedBox(height: 20.0)
-            ElevatedButton(
-              onPressed: () {
-                String userInput = _textEditingController.text,
-                print('User Input: $userInput');
-                Navigator.push(
+              SizedBox(height: 20.0),
+              TextField(
+                controller: _textEditingController,
+                decoration: InputDecoration(
+                  hintText: 'Type here...',
+                ),
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  String userInput = _textEditingController.text;
+                  print('User Input: $userInput');
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => ThirdPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.cyan.shade900,
-                onPrimary: Colors.white,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.cyan.shade900,
+                  onPrimary: Colors.white,
+                ),
+                child: Text('Submit', style: TextStyle(color: Colors.white)),
               ),
-              child: Text('Submit', style: TextStyle(color: Colors.white)),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
 
 //third page
+
+// second page
+class ThirdPage extends StatefulWidget {
+  @override
+  _ThirdPageState createState() => _ThirdPageState();
+}
+
 class _ThirdPageState extends State<ThirdPage> {
   List<File?> _images = [];
   final TextEditingController _textEditingController = TextEditingController();
@@ -257,6 +264,7 @@ class _FourthPageState extends State<FourthPage> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -279,7 +287,7 @@ class _FourthPageState extends State<FourthPage> {
             CircleAvatar(
               radius: 80.0,
               backgroundImage: NetworkImage(
-                'https://t4.ftcdn.net/jpg/01/41/72/83/360_F_141728316_rqGLy0W6NJ4KuG0s3bRsNFO5Ot6M6Kuo.jpg'),            
+                  'https://t4.ftcdn.net/jpg/01/41/72/83/360_F_141728316_rqGLy0W6NJ4KuG0s3bRsNFO5Ot6M6Kuo.jpg'),
             ),
             SizedBox(height: 20.0),
             ElevatedButton(
