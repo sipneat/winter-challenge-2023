@@ -200,7 +200,7 @@ class _ThirdPageState extends State<ThirdPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                'Please insert photos of top',
+                'Please insert photos of bottom',
                 style: TextStyle(
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold,
@@ -284,22 +284,13 @@ class _FourthPageState extends State<FourthPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            CircleAvatar(
-              radius: 80.0,
-              backgroundImage: NetworkImage(
+            Container(
+              width: 200,
+              height: 200,
+              child: Image.network(
                   'https://t4.ftcdn.net/jpg/01/41/72/83/360_F_141728316_rqGLy0W6NJ4KuG0s3bRsNFO5Ot6M6Kuo.jpg'),
             ),
             SizedBox(height: 20.0),
-            ElevatedButton(
-              onPressed: () {
-                // Additional logic or navigation if needed
-              },
-              style: ElevatedButton.styleFrom(
-                primary: Colors.cyan.shade900,
-                onPrimary: Colors.white,
-              ),
-              child: Text('Submit', style: TextStyle(color: Colors.white)),
-            ),
           ],
         ),
       ),
